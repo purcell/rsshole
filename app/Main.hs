@@ -1,6 +1,11 @@
 module Main where
 
-import           Lib
+import           Data.Maybe (catMaybes)
+import           Scrape
+import           Store
 
 main :: IO ()
-main = putStrLn "Hello world"
+main = do
+  store <- defaultStore "data"
+  uris <- lines <$> readFile "urls.txt"
+  scrapeAll (catMaybes (parseFeedURI <$> uris)) store

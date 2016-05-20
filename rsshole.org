@@ -1,0 +1,31 @@
+#+TITLE: rsshole
+#+DATE: <2016-05-20 Fri>
+#+AUTHOR: Steve Purcell
+#+EMAIL: steve@sanityinc.com
+#+OPTIONS: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline
+#+OPTIONS: author:t c:nil creator:comment d:(not "LOGBOOK") date:t
+#+OPTIONS: e:t email:nil f:t inline:t num:t p:nil pri:nil stat:t
+#+OPTIONS: tags:t tasks:t tex:t timestamp:t toc:t todo:t |:t
+#+CREATOR: Emacs 25.1.50.1 (Org mode 8.2.10)
+#+DESCRIPTION:
+#+EXCLUDE_TAGS: noexport
+#+KEYWORDS:
+#+LANGUAGE: en
+#+SELECT_TAGS: export
+
+
+* DONE Grab a big list of RSS URLs
+  CLOSED: [2016-05-20 Fri 10:38]
+
+: with rels as (select url, substring(text from '<[^>]*application/(?:atom|rss)[^>]*/>') as rel from scrapes where url !~ '(twitter|facebook|im db|youtube|myspace)') select url, substring(rel from 'href="?([^ "]+)') as feed_url from rels where rel is not null;
+
+: File.open('urls.txt', 'w') { |f| f.write File.readlines('raw_urls.txt').map(&:chomp).map { |s| URI.join(*s.split("\t")) rescue nil }.compact.join("\n") }
+
+  :LOGBOOK:
+  - State "DONE"       from "TODO"       [2016-05-20 Fri 10:38]
+  CLOCK: [2016-05-20 Fri 09:17]--[2016-05-20 Fri 10:38] =>  1:21
+  :END:
+* TODO Scrape the URLs into RSS items
+* TODO Normalise items to plain text
+* TODO Directory scheme for training with dbacl
+* TODO Simple UI for training
