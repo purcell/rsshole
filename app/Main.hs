@@ -8,4 +8,6 @@ main :: IO ()
 main = do
   store <- defaultStore "data"
   uris <- lines <$> readFile "urls.txt"
-  scrapeAll (catMaybes (parseFeedURI <$> uris)) store
+  result <- scrape $ head (catMaybes (parseFeedURI <$> uris))
+  print result
+  --scrapeAll (catMaybes (parseFeedURI <$> uris)) store
